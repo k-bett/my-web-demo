@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Investor Simulation - Adzora</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand">Adzora <span style="font-size:0.8rem; font-weight:400; color:#666; margin-left:5px;">SIMULATOR</span></div>
+    <a href="#" class="nav-btn"><i class="fas fa-arrow-left"></i> <span>Back</span></a>
+</nav>
+
+<div class="container">
+    <div class="grid-layout">
+        <div class="card">
+            <h2><i class="fas fa-sliders-h" style="color:var(--primary); margin-right:8px;"></i> Configuration</h2>
+            <div class="form-group">
+                <label>Total Budget (KSh)</label>
+                <input type="number" id="budgetInput" class="form-control" value="50000" placeholder="e.g. 50000">
+                <small style="color:#555; font-size:0.7rem;">Fixed total pool to be distributed.</small>
+            </div>
+            <div class="form-group">
+                <label>Max Participants</label>
+                <input type="number" id="participantsInput" class="form-control" value="25" placeholder="e.g. 20">
+            </div>
+            <div class="form-group">
+                <label>Simulation Speed</label>
+                <select id="speedInput" class="form-control" onchange="updateSpeed()">
+                    <option value="1200">Normal</option>
+                    <option value="600">Fast</option>
+                    <option value="200">Hyper</option>
+                </select>
+            </div>
+            <button class="btn-launch" onclick="startSimulation()"><i class="fas fa-rocket"></i> Launch Simulation</button>
+            <button id="pauseBtn" class="btn-pause" onclick="togglePause()" disabled><i class="fas fa-pause"></i> Pause</button>
+        </div>
+
+        <div>
+            <div id="emptyState">
+                <i class="fas fa-chart-line" style="font-size:3rem; margin-bottom:1rem; color:#333;"></i>
+                <h3>Simulation Ready</h3>
+                <p>Set your budget to see how the "Cost Per 1000 Views" (CPM) evolves as views increase.</p>
+            </div>
+
+            <div id="resultsPanel" style="display:none;">
+                <div class="stats-row">
+                    <div class="mini-stat">
+                        <div class="mini-label">Total Views</div>
+                        <div class="mini-value" id="totalViewsDisplay">0</div>
+                    </div>
+                    <div class="mini-stat" style="border-color: rgba(108,92,231,0.3);">
+                        <div class="mini-label">Effective CPM</div>
+                        <div class="mini-value val-primary" id="cpmDisplay">KSh 0.00</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-label">Budget Deployed</div>
+                        <div class="mini-value val-accent" id="budgetDisplay">KSh 0</div>
+                    </div>
+                </div>
+
+                <div class="card" style="padding:0; overflow:hidden;">
+                    <div style="padding:1.5rem 1.5rem 0 1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+                        <h2>Top Performers</h2>
+                        <div style="font-size:.8rem; color:var(--accent); display:flex; align-items:center; gap:5px;">
+                            <span id="liveIndicator" class="pulse-dot" style="width:8px; height:8px; background:var(--accent); border-radius:50%; display:inline-block;"></span>
+                            <span id="liveText">Live</span>
+                        </div>
+                    </div>
+
+                    <div style="padding:0 1rem 1rem 1rem;">
+                        <div class="table-responsive">
+                            <table class="leaderboard-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Creator</th>
+                                        <th>Views</th>
+                                        <th>%</th>
+                                        <th>Earn</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="creatorsTableBody">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-coins" style="margin-right:8px; color:var(--warning)"></i> Share Distribution</h3>
+                    <div style="height:220px; width:100%;">
+                        <canvas id="shareChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
